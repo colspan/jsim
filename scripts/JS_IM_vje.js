@@ -334,5 +334,3 @@ var JS_IM_YahooAPI = {
     }
   }
 }
-
-var romaObj = new JS_IM( $( 'japaneseime' ), JS_IM_VJE );
