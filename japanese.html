@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Japanese IME</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="keywords" content="日本語入力,日本語IME,Japanese IME,Javascript Japanese IME,Web IME,Javascript IME,Javascript Web IME" />
+<meta name="description" content="Japanese IME built on Javascript." />
+<link rel="stylesheet" href="style/style.css">
+<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+</head>
+<body>
+
+<h1>Japanese IME</h1>
+
+Javascript Japanese IME / Javascriptによる日本語IME実装<br />
+Version 0.10 beta<br />
+<br />
+
+by <a href="http://colspan.net/">Colspan</a> / License: <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a><br />
+powered by <a href="http://la.ma.la/">roma.js</a>, <a href="http://202.248.69.143/~goma/">utf.js</a>,<a href="http://d.hatena.ne.jp/project_the_tower2/">caret.js</a>,<br />
+
+<!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<span style="margin:15px 15px 15px 15px"><a href="http://developer.yahoo.co.jp/about">Webサービス by Yahoo! JAPAN</a></span>
+<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
+<br />
+<br />
+<form name="japanese">
+
+<textarea id="japaneseime" style="width:500px;height:300px;"></textarea>
+<br />
+<input type="text" id="phase" disabled="true"><br />
+</form>
+
+<script type="text/javascript" src="scripts/prototype.js"></script>
+<script type="text/javascript" src="scripts/caret.js"></script>
+<script type="text/javascript" src="scripts/keycode.js"></script>
+<script type="text/javascript" src="scripts/JS_IM.js"></script>
+<script language='JavaScript' src='scripts/roma.js'></script>
+<script type="text/javascript" src="scripts/JS_IM_vje.js"></script>
+
+
+<h2>操作方法</h2>
+<p>テキストボックス上でローマ字入力をすると日本語を入力できます。変換を始めるにはSpaceキーを押してください。</p>
+<p>変換中の文字列や変換候補は画面右側に出ます。<br />
+文節の移動は候補リスト表示中に左右の矢印キーで行い、候補の選択は上下キーおよびSpaceキーで行います。<br />
+変換中のすべての文節を確定するには次の文字列を入力し始めるか、Enterキーを押して下さい。</p>
+<p>Shift + SpaceでIMEを有効/無効にできます。</p>
+<p>※ Firefoxで開発・動作確認中です。ほかの環境では不安定であったり、動作しない場合があります。</p>
+
+<h2>未実装の機能</h2>
+<ul>
+<li>強制かな・カナ変換</li>
+<li>学習・ユーザ辞書</li>
+<li>文節の切り直し</li>
+<li>IE,Opera,Safariでの動作</li>
+<li>データ取得遅延対策</li>
+<li>バッファ文字列・変換候補の表示位置を見やすく</li>
+</ul>
+
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2226611-1";
+urchinTracker();
+</script>
+
+
+</body>
+</html>
+

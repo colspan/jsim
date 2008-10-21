@@ -1,0 +1,236 @@
+<!doctype html public "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Hangul Pad</title>
+<style type="text/css">
+<!--
+body{
+font:10pt, Verdana;
+}
+form{
+margin:1px;
+}
+form input,form textarea{
+border-style:solid;
+border-width:1px;
+border-color:#404040;
+}
+-->
+</style>
+</head>
+<body>
+<h1>Hangul Pad</h1>
+Version 1.00 beta (2007/01/09)<br>
+&copy;2007 <a href="http://colspan.net/">Colspan</a> All Rights Reserved.<br />
+johab.js &copy; <a href="http://ha1.seikyou.ne.jp/home/akairingosaita/typing/">chiyu</a>
+<script language='JavaScript' src='prototype.js'></script>
+<script language='JavaScript' src='keytable.js'></script>
+<script language='JavaScript' src='browser.js'></script>
+<script language='JavaScript' src='selectionSupport.js'></script>
+<script language='JavaScript' src='johab.js'></script>
+
+<script>
+
+var hangulPad = Class.create();
+hangulPad.prototype = {
+	baseDiv : null,
+	hangulBox : null,
+	padElements : null,
+	padShiftKey : null,
+	padBSKey : null,
+	padSpaceKey : null,
+	padEnterKey : null,
+	keymapAscii : "1234567890-^\\qwertyuiop@[asdfghjkl;:]zxcvbnm,./\\",
+	keymapAsciiShifted : "!\"#$%&'()0=~|QWERTYUIOP`{ASDFGHJKL+*}ZXCVBNM<>?_",
+	keymap :null,
+	keymapShifted : null,
+	keymapBr : null,
+	stateShiftKey : false,
+	initializeKeymap : function(){
+		this.keymap = "1234567890-^\\ㅂㅈㄷㄱㅅㅛㅕㅑㅐㅔ@[ㅁㄴㅇㄹㅎㅗㅓㅏㅣ;:]ㅋㅌㅊㅍㅠㅜㅡ,./\\";
+		this.keymapShifted = "!\"#$%&'()0=~|ㅃㅉㄸㄲㅆㅛㅕㅑㅒㅖ`{ㅁㄴㅇㄹㅎㅗㅓㅏㅣ+*}ㅋㅌㅊㅍㅠㅜㅡ<>?_";
+		this.keymapBr = [ 12,24,36,47 ];
+	},
+	rewriteKeymap : function() {
+		var i;
+		for(i=0;i<this.keymap.length;i++){
+			if( this.stateShiftKey ) this.padElements[i].value = this.keymapShifted.charAt(i);
+			else this.padElements[i].value = this.keymap.charAt(i);
+//			this.baseForm.appendChild(this.padElements[i]);
+		}
+//alert("hoge");
+	},
+	initialize : function(id){
+		this.baseDiv = document.getElementById(id);
+		var _this = this;
+		var i;
+		var j;
+		this.baseForm = document.createElement("form");
+		this.baseForm.onsubmit = function(){
+			return false;
+		}
+		this.hangulBox = document.createElement("textarea");
+		this.hangulBox.style.width="400px";
+		this.hangulBox.style.height="150px";
+		this.hangulBox.onclick = function(){
+			_this.imeAccept();
+			return false;
+		}
+
+
+		this.baseForm.appendChild(this.hangulBox);
+		this.baseForm.appendChild(document.createElement("br"));
+
+		this.initializeKeymap();
+		this.padElements = new Object();
+		j = 0;
+		for(i=0;i<this.keymap.length;i++){
+			this.padElements[i] = document.createElement("input");
+			this.padElements[i].type = "button";
+			this.padElements[i].name = "key"+i;
+			this.padElements[i].value = this.keymap.charAt(i);
+			this.padElements[i].onclick = this.padElements[i].ondoubleclick = function(){// pad process
+//				selecter_insert( _this.hangulBox,this.value );
+				if( ! _this.imeCombine( this.value ) ) selecter_insert( _this.hangulBox,this.value );
+				if(_this.stateShiftKey==true){
+					_this.stateShiftKey = false;
+					_this.rewriteKeymap();
+				}
+			}
+			this.padElements[i].style.width = "20px";
+			this.padElements[i].style.height = "20px";
+			this.padElements[i].style.margin = "0 1px 0 0";
+			this.baseForm.appendChild(this.padElements[i]);
+			if(this.keymapBr[j]==i){
+				this.baseForm.appendChild(document.createElement("br"));
+				j++;
+			}
+		}//for end
+		this.padShiftKey = document.createElement("input");
+		this.padShiftKey.type = "button";
+		this.padShiftKey.name = "shiftkey";
+		this.padShiftKey.value = "Shift";
+		this.padShiftKey.onclick = this.padShiftKey.ondoubleclick = function(){
+			_this.processShiftKey();
+			return false;
+		}
+		this.baseForm.appendChild(this.padShiftKey);
+		this.padSpaceKey = document.createElement("input");
+		this.padSpaceKey.type = "button";
+		this.padSpaceKey.name = "spacekey";
+		this.padSpaceKey.value = "Space";
+		this.padSpaceKey.onclick = this.padSpaceKey.ondoubleclick = function(){
+			_this.processSpaceKey();
+			return false;
+		}
+		this.baseForm.appendChild(this.padSpaceKey);
+		this.padBSKey = document.createElement("input");
+		this.padBSKey.type = "button";
+		this.padBSKey.name = "backspacekey";
+		this.padBSKey.value = "BS";
+		this.padBSKey.onclick = this.padBSKey.ondoubleclick = function(){
+			_this.processBSKey();
+			return false;
+		}
+		this.baseForm.appendChild(this.padBSKey);
+		this.padEnterKey = document.createElement("input");
+		this.padEnterKey.type = "button";
+		this.padEnterKey.name = "enterkey";
+		this.padEnterKey.value = "Enter";
+		this.padEnterKey.onclick = this.padEnterKey.ondoubleclick = function(){
+			_this.processEnterKey();
+			return false;
+		}
+		this.baseForm.appendChild(this.padEnterKey);
+
+		//Append
+		this.baseDiv.appendChild(this.baseForm);
+	},
+	processShiftKey : function(){
+		this.stateShiftKey = ! this.stateShiftKey;
+		this.rewriteKeymap();
+	},
+	processBSKey : function(){
+		if( ! this.imeCombine("BS") ) selecter_backspace( this.hangulBox );
+	},
+	processSpaceKey : function(){
+//		selecter_insert(this.hangulBox," ");
+		if( ! this.imeCombine(" ") ) selecter_insert( this.hangulBox," " );
+	},
+	processEnterKey : function(){
+		if( ! this.imeCombine("\n") ) selecter_insert(this.hangulBox,"\n");
+	},
+	tempText : "",
+	imeCombine : function(inputValue){
+		//入力制御
+		var inputChar = this.keymapAscii.charAt( this.stateShiftKey ? this.keymapShifted.indexOf(inputValue) : this.keymap.indexOf(inputValue) );
+		var inputCode = inputChar.toUpperCase().charCodeAt(0);
+
+		//関係ないキーは除外
+		if( inputValue == "BS" ){//BS
+			return this.imeBS();
+		}
+		else if( inputValue == " " ){//Space[
+			this.imeAccept();
+			return false;
+		}
+		else if( ! keyTable.is_alphabet(inputCode) ){//アルファベットではない
+			this.imeAccept();
+			return false;
+		}
+
+		//Shiftキーの処理
+		// 二重子音かどうかを判断
+		if( this.stateShiftKey && (("abcdfghijklmnsuvxyz").search(inputChar.toLowerCase()) == -1) ) inputChar = inputChar.toUpperCase();
+		else inputChar = inputChar.toLowerCase();
+
+		//変換開始
+		var mytext = this.tempText;
+		var mykey = inputChar;
+		if(this.tempText.length != 0 ) selecter_backspace(this.hangulBox);//作業文字列がからでないときには1文字消す
+		var lastChar = mytext.substring(mytext.length - 1, mytext.length);//結合対象文字列
+
+		if(isJasoKey(mykey)){//作業文字列に入力文字を演算
+			this.tempText = strPlusJasoKey(lastChar, mykey);
+		}
+		if(this.tempText.length == 2){//文字が確定した
+			selecter_insert(this.hangulBox,this.tempText.substring(0, 1));//テキストボックスに確定文字を挿入
+			this.tempText = this.tempText.substring(1,2);
+		}
+		selecter_insert(this.hangulBox,this.tempText);//テキストボックスに作業文字列を挿入
+		return true;
+	},
+	imeBS : function(){
+		var mystr = this.tempText;
+		if(mystr.length!=0){
+			this.tempText = strDeleteOneJaso(mystr);
+			selecter_backspace(this.hangulBox);
+			if( this.tempText.length != 0 ) selecter_insert(this.hangulBox,this.tempText);//テキストボックスに挿入
+			return true;
+		}
+		else{
+			return false;
+	//		selecter_backspace(this.hangulBox);
+		}
+	},
+	//処理文字列を確定する
+	imeAccept :  function(){
+		if(this.tempText.length != 0 ){
+			selecter_backspace(this.hangulBox);
+			selecter_insert(this.hangulBox,this.tempText.substring(0, 1));//テキストボックスに挿入
+			this.tempText = "";
+		}
+	}
+}
+</script>
+
+<div id="test"></div>
+<script>
+new hangulPad("test");
+</script>
+
+</body>
+</html>
+
+
