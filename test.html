@@ -30,12 +30,25 @@ johab.js by chiyu
 <form name="hangulIM">
 <textarea id="hangul"></textarea><br>
 </form>
-<a href="javascript:(function(){var s=document.createElement('script');s.charset='utf-8';s.src='http://srv.colspan.net/hangulime/bookmarklet/loader.js';document.body.appendChild(s);})();">Hangul IME Bookmarklet(Embed)</a>
+
 <script type="text/javascript">
 hangulIM_Obj = new JS_IM( $( 'hangul' ), JS_IM_hangul );
-//hangulIMEObj.disable();
 </script>
 
+<h2>日本語かな漢字変換</h2>
+
+roma.js by http://la.ma.la/
+
+<form name="japanese">
+<textarea id="japaneseime"></textarea>
+</form>
+
+<script language='JavaScript' src='scripts/roma.js'></script>
+<script language='JavaScript' src='scripts/JS_IM_vje.js'></script>
+
+<script type="text/javascript">
+hangulIM_Obj = new JS_IM( $( 'japaneseime' ), JS_IM_vje );
+</script>
 
 <h2>ひらがな</h2>
 
@@ -46,7 +59,6 @@ roma.js by http://la.ma.la/
 <input id="romadebug" type="text">
 </form>
 
-<script language='JavaScript' src='scripts/roma.js'></script>
 <script>
 var JS_IM_roma = {
   methodName : "roma",
