@@ -7,7 +7,7 @@
 //
 // depend roma.js,JSIM.js,prototype.js
 
-var JS_IM_VJE = {
+var JS_IM_vje = {
   methodName : "jsvje",
   version : "20081021",
   language : "Japanese",
@@ -123,7 +123,7 @@ var JS_IM_VJE = {
         spanElem = document.createElement("span");
         spanElem.innerHTML = segments[i];
         if( targetSegmentNum == i ){
-          setClassName( spanElem, 'jsim_target_segment' );
+          JS_IM_setClassName( spanElem, 'jsim_target_segment' );
         }
         divElem.appendChild( spanElem);
       }
@@ -153,7 +153,7 @@ var JS_IM_VJE = {
   process : function( keyStatus ){
     var outputStr = "";
     var JS_IM_Obj = this.JS_IM_Obj;
-    $( 'phase' ).value = this.phase;  // debug
+//    $( 'phase' ).value = this.phase;  // debug
     var elemSelectionState = JS_IM_Obj.imeBox.getCaretXY();
     JS_IM_Obj.GUI.buffer.setPosition( elemSelectionState[0], elemSelectionState[1] );
     switch( this.phase ){
@@ -166,7 +166,7 @@ var JS_IM_VJE = {
             return ''; // IEでフォームが初期化されるのを防ぐ
           break;
           case 32 : // Space
-            if( this.inlineBuffer == '' ) return null; // inlineBufferが空ならそのままスペースを入力する
+            if( this.romajiBuffer == '' ) return null; // romajiBufferが空ならそのままスペースを入力する
             this.extension.convert(); // 変換開始
             this.phase = 'wait';
             return '';
@@ -311,7 +311,7 @@ var JS_IM_YahooAPI = {
   request : function( query ){
     this.lastQuery = query;
     this.requestCount ++;
-    window.status = this.requestCount;
+//    window.status = this.requestCount; // debug
     try{
       var script = document.createElement('script');
       script.charset = 'UTF-8';

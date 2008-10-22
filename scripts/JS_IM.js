@@ -7,6 +7,13 @@
 //
 // depend prototype.js,keycode.js,caret.js
 
+
+function JS_IM_setClassName( targetElement, className ){
+  targetElement.className = className;
+  if( targetElement.setAttribute ) targetElement.setAttribute( "class", className );
+}
+
+
 var JS_IM = Class.create();
 JS_IM.prototype = {
   version : "20081021",
@@ -176,19 +183,6 @@ JS_IM.prototype = {
 
 }
 
-function setClassName( targetElement, className ){
-  targetElement.className = className;
-  if( targetElement.setAttribute ) targetElement.setAttribute( "class", className );
-}
-function getPosition( targetElement ){
-  var top = 0, left = 0;
-  do {
-    top += targetElement.offsetTop  || 0;
-    left += targetElement.offsetLeft || 0;
-    targetElement = targetElement.offsetParent;
-  } while (targetElement);
-  return { top:top,left:left };
-}
 
 var JS_IM_GUI = Class.create();
 JS_IM_GUI.prototype = {
@@ -197,18 +191,18 @@ JS_IM_GUI.prototype = {
   JS_IM_Obj : null,
   initialize : function( JS_IM_Obj ){
     this.buffer.JS_IM_Obj = this.list.JS_IM_Obj = this.JS_IM_Obj = JS_IM_Obj;
+    this.buffer.parentObj = this.list.parentObj = this;
   },
     buffer : {
       JS_IM_Obj : null,
       elem : null,
       init : function(){
         var bufferBoxElem = document.createElement("div");
-        setClassName(bufferBoxElem, "jsim_bufferbox");
+        bufferBoxElem.addClassName( "jsim_bufferbox" );
 
         var imeBoxPosition = this.JS_IM_Obj.imeBox.cumulativeOffset();
         bufferBoxElem.style.top = imeBoxPosition.top + "px";
         bufferBoxElem.style.left = imeBoxPosition.left + this.JS_IM_Obj.imeBox.offsetWidth + "px";
-        bufferBoxElem.style.width = "5px";
 
         document.body.appendChild( bufferBoxElem );
         this.elem = bufferBoxElem;
@@ -240,11 +234,21 @@ JS_IM_GUI.prototype = {
       selectedCandidateNum : 0,
       init : function(){
         var listBoxElem = document.createElement("ul");
-        setClassName( listBoxElem, "jsim_listbox" );
+        JS_IM_setClassName( listBoxElem, "jsim_listbox" );
 
-        var imeBoxPosition = getPosition( this.JS_IM_Obj.imeBox );
+        var imeBoxPosition = this.JS_IM_Obj.imeBox.cumulativeOffset();
         listBoxElem.style.top = imeBoxPosition.top + 30 + "px";
         listBoxElem.style.left = imeBoxPosition.left + this.JS_IM_Obj.imeBox.offsetWidth + "px";
+
+        listBoxElem.style.background = "#FFE";
+        listBoxElem.style.listStyleType = "none";
+        listBoxElem.style.listStylePosition = "inside";
+        listBoxElem.style.visibility = "hidden";
+        listBoxElem.style.border = "solid 1px #333";
+        listBoxElem.style.padding = "0 3px 3px 3px";
+        listBoxElem.style.margin = "0";
+        listBoxElem.style.position = "absolute";
+        listBoxElem.style.width = "200px";
 
         document.body.appendChild( listBoxElem );
         this.elem = listBoxElem;
@@ -291,7 +295,7 @@ JS_IM_GUI.prototype = {
         var pos = this.selectedCandidateNum;
         var color,background;
         for(i=0;i<length;i++) if( i == pos ) {
-          setClassName(this.candidateElems[i], "selected" );
+          JS_IM_setClassName( this.candidateElems[i], "jsim_listbox_li_selected" );
         }
         else{
           this.candidateElems[i].className = '';
@@ -300,7 +304,7 @@ JS_IM_GUI.prototype = {
         // 描画位置設定
         var bufferElem = this.JS_IM_Obj.GUI.buffer.elem;
         if( bufferElem ){
-          var bufferElemPosition = getPosition( bufferElem );
+          var bufferElemPosition =  bufferElem.cumulativeOffset( bufferElem );
           this.elem.style.left = bufferElemPosition.left + "px";
           this.elem.style.top = bufferElemPosition.top + bufferElem.offsetHeight + "px";
         }
@@ -360,7 +364,16 @@ JS_IM_Method.prototype = {
   initialize : function(functionObj){
     var valueList = ["init","methodName","version","language","author","accept","process","backspace","extension","params","callback"];
     if( functionObj ){
-      for( i=0;i<valueList.length;i++ ) if( functionObj[valueList[i]] ) this[valueList[i]] = functionObj[valueList[i]];
+      for( i=0;i<valueList.length;i++ ){
+        switch( typeof functionObj[valueList[i]] ){
+            case 'function' :
+                this[valueList[i]] = functionObj[valueList[i]];
+            break;
+            case 'object' :
+                this[valueList[i]] = Object.clone( functionObj[valueList[i]] );
+            break;
+        }
+      }
       this.init();
     }
     this.extension.methodObj = this;
