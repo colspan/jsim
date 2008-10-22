@@ -30,7 +30,7 @@ border-style:solid;
 border-color:#FFF;
 border-width:1px;
 }
-.jsim_listbox_li_selected{
+li.jsim_listbox_li_selected{
 border-color:#888;
 background:#CCE;
 color:#333;
