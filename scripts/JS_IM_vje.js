@@ -6,7 +6,6 @@
 //        License : MIT license
 //
 // depend roma.js,JSIM.js,prototype.js
-
 var JS_IM_vje = {
   methodName : "jsvje",
   version : "20081021",

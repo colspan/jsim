@@ -141,11 +141,14 @@ Element.addMethods(['textarea','input'],{
 		element = $(element);
 		if(Prototype.Browser.IE){
 			return function(element){
-				var xy0 = $(element).cumulativeOffset();
+//				var xy0 = $(element).cumulativeOffset();
 				element.focus();
 				var caretPos = document.selection.createRange();
-				var x = xy0[0] + caretPos.offsetLeft  - element.scrollLeft;
-				var y = xy0[1] + caretPos.offsetTop  - element.scrollTop;
+
+//				var x = xy0[0] + caretPos.offsetLeft + element.scrollLeft;
+//				var y = xy0[1] + caretPos.offsetTop + element.scrollTop;
+				var x = caretPos.boundingLeft + document.body.scrollLeft;
+				var y = caretPos.boundingTop + document.body.scrollTop;
 				return new Array(x,y);
 			}
 		}else if(Prototype.Browser.Opera || Prototype.Browser.Gecko  || Prototype.Browser.WebKit){

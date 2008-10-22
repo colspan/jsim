@@ -13,7 +13,6 @@ function JS_IM_setClassName( targetElement, className ){
   if( targetElement.setAttribute ) targetElement.setAttribute( "class", className );
 }
 
-
 var JS_IM = Class.create();
 JS_IM.prototype = {
   version : "20081021",
@@ -198,12 +197,12 @@ JS_IM_GUI.prototype = {
       elem : null,
       init : function(){
         var bufferBoxElem = document.createElement("div");
-        bufferBoxElem.addClassName( "jsim_bufferbox" );
+        JS_IM_setClassName( bufferBoxElem, "jsim_bufferbox" );
 
-        var imeBoxPosition = this.JS_IM_Obj.imeBox.cumulativeOffset();
+/*        var imeBoxPosition = this.JS_IM_Obj.imeBox.cumulativeOffset();
         bufferBoxElem.style.top = imeBoxPosition.top + "px";
         bufferBoxElem.style.left = imeBoxPosition.left + this.JS_IM_Obj.imeBox.offsetWidth + "px";
-
+*/
         document.body.appendChild( bufferBoxElem );
         this.elem = bufferBoxElem;
       },
@@ -298,13 +297,13 @@ JS_IM_GUI.prototype = {
           JS_IM_setClassName( this.candidateElems[i], "jsim_listbox_li_selected" );
         }
         else{
-          this.candidateElems[i].className = '';
+          JS_IM_setClassName( this.candidateElems[i],  "" );
         }
 
         // 描画位置設定
         var bufferElem = this.JS_IM_Obj.GUI.buffer.elem;
         if( bufferElem ){
-          var bufferElemPosition =  bufferElem.cumulativeOffset( bufferElem );
+          var bufferElemPosition =  Element.Methods.cumulativeOffset( bufferElem );
           this.elem.style.left = bufferElemPosition.left + "px";
           this.elem.style.top = bufferElemPosition.top + bufferElem.offsetHeight + "px";
         }
