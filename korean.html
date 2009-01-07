@@ -11,30 +11,13 @@
 </head>
 <body>
 
+
 <h1><img src="style/logo.png" alt="Hangul IME"></h1>
 
-Javascript Korean IME / 한글입력기<br />
-Version 3.10 beta (2008/07/24)<br />
-<a href="http://colspan.net/hangulime_stable/">Old Stable Version</a> / 
-<a href="http://colspan.net/blog/release-notes/">Release Notes</a><br />
-<br />
-
-by <a href="http://colspan.net/">Colspan</a> / License: <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a><br />
-johab.js by <a href="http://ha1.seikyou.ne.jp/home/akairingosaita/typing/">chiyu</a>, caret.js by <a href="http://d.hatena.ne.jp/project_the_tower2/">sion</a><br />
-
-
-
-
-<br />
-<a href="javascript:d=document;w=window;t='';void(w.open('http://colspan.net/hangulime/','_blank','scrollbars=yes,width=500,height=670,status=yes,resizable=yes'));">Hangul IME Bookmarklet(Pop Up)</a><br>
-<a href="javascript:(function(){var s=document.createElement('script');s.charset='utf-8';s.src='http://colspan.net/hangulime/bookmarklet/loader.js';document.body.appendChild(s);})();">Hangul IME Bookmarklet(Embed)</a><br />
-(<a href="howtouse.html">How to use bookmarklet</a>)
-
-<form name="hangul">
-<textarea id="hangulime"></textarea><br />
-<input type="button" onclick="hangulIM_Obj.toggle();return false;" name="togglebutton" value="한/영 Toggle (Shift + Space)">
-</form>
-
+<div id="version">
+Javascript Korean IME / 한글입력기
+3.20 beta (2009/01/09)<br />
+</div>
 
 <script type="text/javascript" src='scripts/prototype.js'></script>
 <script type="text/javascript" src='scripts/keycode.js'></script>
@@ -43,13 +26,74 @@ johab.js by <a href="http://ha1.seikyou.ne.jp/home/akairingosaita/typing/">chiyu
 <script type="text/javascript" src='scripts/johab.js'></script>
 <script type="text/javascript" src='scripts/JS_IM_hangul.js'></script>
 
-<script type="text/javascript">
-hangulIM_Obj = new JS_IM( $( 'hangulime' ), JS_IM_hangul );
-//hangulIMEObj.disable();
-</script>
 
+<style type="text/css">
+@import url(http://www.google.com/cse/api/branding.css);
+</style>
+<div class="cse-branding-right" style="background-color:#FFFFFF;color:#000000">
+  <div class="cse-branding-form">
+	<form action="http://www.google.co.kr/cse" id="cse-search-box" target="_blank">
+	  <div>
+		<input type="hidden" name="cx" value="partner-pub-3971375039517858:8s2nah-bv7j" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" size="38" id="hangulIM_adsense" />
+		<input type="submit" name="sa" value="&#xac80;&#xc0c9;" />
+	  </div>
+	</form>
+  </div>
+  <div class="cse-branding-logo">
+	<img src="http://www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google" />
+  </div>
+  <div class="cse-branding-text">
+	&#47582;&#52644;&#44160;&#49353;
+  </div>
 </div>
 
+<form name="search" onsubmit="hangulIM_Search();return false;">
+<input type="text" id="hangulime_for_search" size="38">
+<input type="submit" name="search" value="&#xac80;&#xc0c9;">
+<select name="engine" id="engineList">
+<option value="http://search.naver.com/search.naver?query=">Naver</option>
+<option value="http://search.daum.net/search?q=">Daum</option>
+</select>
+</form>
+
+<form name="hangul">
+<textarea id="hangulime"></textarea>
+</form>
+
+
+<script type="text/javascript">
+hangulIM_Obj = new JS_IM( $( 'hangulime' ), JS_IM_hangul );
+hangulIM_for_search_Obj = new JS_IM( $( 'hangulime_for_search' ), JS_IM_hangul );
+hangulIM_adsense_Obj = new JS_IM( $( 'hangulIM_adsense' ), JS_IM_hangul );
+function hangulIM_Search(){ // requires hangulIM_for_search_Obj
+  var queryWord = hangulIM_for_search_Obj.imeBox.value;
+  var url = $( 'engineList' ).value;
+
+  location.href = url + encodeURIComponent( queryWord );
+}
+</script>
+
+
+
+
+<div id="explanation">
+<strong>Toggle : Shift + Space</strong><br />
+<a href="javascript:d=document;w=window;t='';void(w.open('http://colspan.net/hangulime/','_blank','scrollbars=yes,width=500,height=670,status=yes,resizable=yes'));">Hangul IME Bookmarklet(Pop Up)</a><br>
+<a href="javascript:(function(){var s=document.createElement('script');s.charset='utf-8';s.src='http://colspan.net/hangulime/bookmarklet/loader.js';document.body.appendChild(s);})();">Hangul IME Bookmarklet(Embed)</a><br />
+(<a href="howtouse.html">How to use bookmarklet</a>)
+</div>
+
+
+<div id="credit">
+<a href="http://colspan.net/hangulime_stable/">Old Stable Version</a> / 
+<a href="http://colspan.net/blog/release-notes/">Release Notes</a><br />
+<br />
+
+by <a href="http://colspan.net/">Colspan</a> / License: <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a><br />
+johab.js by <a href="http://ha1.seikyou.ne.jp/home/akairingosaita/typing/">chiyu</a>, caret.js by <a href="http://d.hatena.ne.jp/project_the_tower2/">sion</a><br />
+</div>
 
 </body>
 </html>

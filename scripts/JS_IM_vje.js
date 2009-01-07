@@ -12,6 +12,7 @@ var JS_IM_vje = {
   language : "Japanese",
   author : "Colspan",
   params : {
+    displayString : '日',
     listBox : true,
     inlineInsertion : false
   },

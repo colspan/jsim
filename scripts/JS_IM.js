@@ -56,9 +56,12 @@ JS_IM.prototype = {
     }
 
     // GUI 初期化
-    if( this.methodObj.params.listBox || ! this.methodObj.params.inlineInsertion ){
+
+//    if( this.methodObj.params.listBox || ! this.methodObj.params.inlineInsertion ){
       this.GUI = new JS_IM_GUI( this );
-    }
+//    }
+
+    this.GUI.stateDisplay.init();
     if( this.methodObj.params.listBox ){
       this.GUI.list.init();
     }
@@ -86,14 +89,16 @@ JS_IM.prototype = {
   enable : function(){
     this.isEnabled = true;
     this.combiningStr = "";
-    this.originalBackgroundColor = this.imeBox.style.background;
-    this.imeBox.style.background = "#FFF0F0";
+//    this.originalBackgroundColor = this.imeBox.style.background;
+//   this.imeBox.style.background = "#FFF0F0";
+    this.GUI.stateDisplay.show();
     this.imeBox.focus();
   },
   disable : function(){
     this.isEnabled = false;
     this.combiningStr = "";
-    this.imeBox.style.background = this.originalBackgroundColor;
+//    this.imeBox.style.background = this.originalBackgroundColor;
+    this.GUI.stateDisplay.hide();
     this.imeBox.focus();
   },
   // On Offを切り替える
@@ -189,9 +194,43 @@ JS_IM_GUI.prototype = {
   author : "Colspan",
   JS_IM_Obj : null,
   initialize : function( JS_IM_Obj ){
-    this.buffer.JS_IM_Obj = this.list.JS_IM_Obj = this.JS_IM_Obj = JS_IM_Obj;
-    this.buffer.parentObj = this.list.parentObj = this;
+    this.stateDisplay = Object.clone( JS_IM_GUI.prototype.stateDisplay );
+    this.stateDisplay.JS_IM_Obj = this.buffer.JS_IM_Obj = this.list.JS_IM_Obj = this.JS_IM_Obj = JS_IM_Obj;
+    this.stateDisplay.parentObj = this.buffer.parentObj = this.list.parentObj = this;
   },
+    stateDisplay : {
+      elem : null,
+      elemId : null,
+      init : function(){
+        var imeBox = this.JS_IM_Obj.imeBox;
+        var offset = Position.cumulativeOffset( imeBox );
+        var stateDisplayElem = document.createElement( "div" );
+        stateDisplayElem.style.fontSize = '12px';
+        stateDisplayElem.style.textAlign = 'center';
+        stateDisplayElem.style.width = '20px';
+        stateDisplayElem.style.height = '20px';
+        stateDisplayElem.style.border = 'solid 1px #000';
+        stateDisplayElem.style.background = "#FFC";
+        stateDisplayElem.style.position = 'absolute';
+        stateDisplayElem.style.top = offset[1]  + imeBox.offsetHeight - 20 + 'px';
+        stateDisplayElem.style.left = offset[0] + imeBox.offsetWidth - 20 + 'px';
+        stateDisplayElem.style.visibility = "hidden";
+        this.elem = stateDisplayElem;
+        document.body.appendChild( this.elem );
+
+        this.setString( this.JS_IM_Obj.methodObj.params.displayString );
+
+      },
+      show : function(){
+        this.elem.style.visibility = "visible";
+      },
+      hide : function(){
+        this.elem.style.visibility = "hidden";
+      },
+      setString : function( string ){
+        this.elem.innerHTML = string;
+      }
+    },
     buffer : {
       JS_IM_Obj : null,
       elem : null,
@@ -336,6 +375,7 @@ JS_IM_Method.prototype = {
   JS_IM_Obj : null, // 親オブジェクト
   phase : null,
   params : { // 親に渡す情報
+    displayString : 'skelton',
     listBox : false,
     inlineInsertion : true
   },

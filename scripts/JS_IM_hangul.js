@@ -13,6 +13,7 @@ var JS_IM_hangul = {
   language : "Korean",
   author : "Colspan",
   params : {
+    displayString : '한',
     listBox : false,
     inlineInsertion : true
   },
