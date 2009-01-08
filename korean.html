@@ -69,13 +69,11 @@ hangulIM_for_search_Obj = new JS_IM( $( 'hangulime_for_search' ), JS_IM_hangul )
 hangulIM_adsense_Obj = new JS_IM( $( 'hangulIM_adsense' ), JS_IM_hangul );
 function hangulIM_Search(){ // requires hangulIM_for_search_Obj
   var queryWord = hangulIM_for_search_Obj.imeBox.value;
-  var url = $( 'engineList' ).value;
-
-  location.href = url + encodeURIComponent( queryWord );
+  var baseUrl = $( 'engineList' ).value;
+  var url = baseUrl + encodeURIComponent( queryWord );
+  window.open( url, '_blank' );
 }
 </script>
-
-
 
 
 <div id="explanation">
@@ -94,6 +92,9 @@ function hangulIM_Search(){ // requires hangulIM_for_search_Obj
 by <a href="http://colspan.net/">Colspan</a> / License: <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a><br />
 johab.js by <a href="http://ha1.seikyou.ne.jp/home/akairingosaita/typing/">chiyu</a>, caret.js by <a href="http://d.hatena.ne.jp/project_the_tower2/">sion</a><br />
 </div>
+
+
+<img src="style/keyboard_kr.png" style="position:absolute;top:10px;left:210px;">
 
 </body>
 </html>

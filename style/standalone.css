@@ -1,11 +1,14 @@
 body{
-font:10pt, Verdana;
+font-size:10pt;
+font-family:Malgun Gothic,Verdana;
 background:white;
 }
 form{
 margin:1px;
 }
-textarea{
+textarea,input[type="text"]{
+font-size:10pt;
+font-family:Malgun Gothic, Gulim;
 }
 input[type="submit"]{
 font-size:8pt;
@@ -28,18 +31,18 @@ img{
 border:0;
 }
 #version{
-font:8pt, Verdana;
+font-size:8pt;
 margin: 8px 0;
 }
 #credit{
-font:7pt, Verdana;
+font-size:8pt;
 margin-top:10px;
 float:left;
 width:200px;
 }
 #explanation{
 width:200px;
-font:7pt, Verdana;
+font-size:8pt;
 margin-top:10px;
 float:left;
 }
