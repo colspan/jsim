@@ -110,9 +110,9 @@ JS_IM.prototype = {
   accept :  function(){
     if( ! this.isEnabled ) return;
     if( this.methodObj.inlineBuffer != "" ){
-      if( this.methodObj.params.inlineInsertion ) for( i=0; i<this.methodObj.inlineBuffer.length; i++ ) this.imeBox.backSpace();
+      if( this.methodObj.params.inlineInsertion ) for( i=0; i<this.methodObj.inlineBuffer.length; i++ ) Caret.backSpace( this.imeBox );
       var outputStr = this.methodObj.accept();
-      this.imeBox.nowCaretPosPutWord( outputStr );
+      Caret.nowCaretPosPutWord( this.imeBox, outputStr );
     }
   },
   ///// IME処理関数 process /////
@@ -159,9 +159,9 @@ JS_IM.prototype = {
     var lastInlineBufferLength = this.methodObj.inlineBuffer.length; // 結合前の文字数を記憶
     var outputStr = this.methodObj.process( keyStatus ); // 結合処理
     if( outputStr != null ){ // JS_IM_Methodから確定文字(空文字を含む)が返された
-      if( this.methodObj.params.inlineInsertion ) for( i=0; i<lastInlineBufferLength; i++ ) this.imeBox.backSpace(); // テキストボックスからインライン文字列を取り除く
-      this.imeBox.nowCaretPosPutWord( outputStr ); // テキストボックスに確定文字を挿入
-      if( this.methodObj.params.inlineInsertion ) this.imeBox.nowCaretPosPutWord( this.methodObj.inlineBuffer ); // テキストボックスにインライン文字列を挿入
+      if( this.methodObj.params.inlineInsertion ) for( i=0; i<lastInlineBufferLength; i++ ) Caret.backSpace( this.imeBox ); // テキストボックスからインライン文字列を取り除く
+      Caret.nowCaretPosPutWord( this.imeBox, outputStr ); // テキストボックスに確定文字を挿入
+      if( this.methodObj.params.inlineInsertion ) Caret.nowCaretPosPutWord( this.imeBox, this.methodObj.inlineBuffer ); // テキストボックスにインライン文字列を挿入
 //      else this.GUI.buffer.update( this.methodObj.inlineBuffer );
       return true;
     }
@@ -179,8 +179,8 @@ JS_IM.prototype = {
     var lastInlineBufferLength = this.methodObj.inlineBuffer.length;
     var returnValue = this.methodObj.backspace();
     if( this.methodObj.params.inlineInsertion ){
-      for( i=0; i<lastInlineBufferLength; i++ ) this.imeBox.backSpace(); // テキストボックスからインライン文字列を取り除く
-      this.imeBox.nowCaretPosPutWord( this.methodObj.inlineBuffer );//テキストボックスに挿入
+      for( i=0; i<lastInlineBufferLength; i++ ) Caret.backSpace( this.imeBox ); // テキストボックスからインライン文字列を取り除く
+      Caret.nowCaretPosPutWord( this.imeBox, this.methodObj.inlineBuffer );//テキストボックスに挿入
     }
     return returnValue;
   }

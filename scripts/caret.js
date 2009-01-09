@@ -26,7 +26,9 @@ caret.js
 	var pos = $(textareaElement).getCaretPos();
 ==============
 */
-Element.addMethods(['textarea','input'],{
+
+
+var Caret = {
 	getCaretPos: function (element){
 		element = $(element);
 		element.focus();
@@ -93,11 +95,11 @@ Element.addMethods(['textarea','input'],{
 		}else if(Prototype.Browser.Opera || Prototype.Browser.Gecko  || Prototype.Browser.WebKit){
 			// 挿入時に、selectionEndを使って後半を結合するように変更
 			var str=element.value;
-			var selected_range = element.getSelectionPos();
+			var selected_range = Caret.getSelectionPos( element );
 			var click_s=str.substr(0, selected_range[0]);
 			var click_e=str.substr(selected_range[0] + selected_range[1], element.value.length);
 			element.value = click_s + word + click_e;
-			element.atachCaretPos(selected_range[0]+word.length);
+			Caret.atachCaretPos( element, selected_range[0]+word.length);
 			/*
 			var str=element.value;
 			var start_length = element.getCaretPos();
@@ -306,4 +308,4 @@ Element.addMethods(['textarea','input'],{
 			textElement.value = textElement.value.substring(0, textElement.value.length-1);
 		}
 	}
-});
+}
