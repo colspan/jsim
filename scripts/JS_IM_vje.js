@@ -154,7 +154,7 @@ var JS_IM_vje = {
     var outputStr = "";
     var JS_IM_Obj = this.JS_IM_Obj;
 //    $( 'phase' ).value = this.phase;  // debug
-    var elemSelectionState = JS_IM_Obj.imeBox.getCaretXY();
+    var elemSelectionState = Caret.getCaretXY( JS_IM_Obj.imeBox );
     JS_IM_Obj.GUI.buffer.setPosition( elemSelectionState[0], elemSelectionState[1] );
     switch( this.phase ){
       case 'input' : // 入力モード

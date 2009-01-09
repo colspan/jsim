@@ -160,8 +160,8 @@ var Caret = {
 				element = $(element);
 				element.focus();
 
-				var elmClone = element.__cloning(repaint);
-				var caretPos = element.getCaretPos();
+				var elmClone = Caret.__cloning( element, repaint);
+				var caretPos = Caret.getCaretPos( element );
 				var value = element.value;
 				elmClone.innerHTML = '';
 				elmClone.appendChild(document.createTextNode(value.substr(0,caretPos)));
