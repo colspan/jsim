@@ -42,10 +42,10 @@ if( typeof( JS_IM_Core_Loaded ) == 'undefined' ){
 		for( i=0;i<inputs.length;i++) if( inputs[i].type == "text" ) inputs[i].JS_IM_Obj.disable();
 	}
 	
-	function hangul_ime_credit_create(){
-		var url = "http://colspan.net/hangulime/credit.html";
+	function JS_IM_credit_create(){
+		var url = "http://colspan.net/japaneseime/credit.html";
 		var c = document.createElement('iframe');
-		c.id = "hangul_ime_credit";
+		c.id = "japanese_ime_credit";
 		c.style.border = "solid 1px #808080";
 		c.style.position = "absolute";
 		c.style.width = "300px";
@@ -58,19 +58,19 @@ if( typeof( JS_IM_Core_Loaded ) == 'undefined' ){
 	}
 
 
-	JS_IM_URL_Prefix = 'http://colspan.net/hangulime/';
-	JS_IM_URL_Prefix = './';
+	JS_IM_URL_Prefix = 'http://colspan.net/japaneseime/';
+//	JS_IM_URL_Prefix = './';
 
 	JS_IM_Core_Loaded = true;
 
 //	JS_IM_B_JSLoader( 'http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js' );
 //	JS_IM_B_JSLoader( 'scripts/prototype.js' );
-	JS_IM_B_JSLoader( JS_IM_URL_Prefix + "bookmarklet/js_im_packed_hangul.js" );
+	JS_IM_B_JSLoader( JS_IM_URL_Prefix + "bookmarklet/js_im_packed_vje.js" );
 	JS_IM_B_StyleLoader();
 
-	hangul_ime_credit_create();
+	JS_IM_credit_create();
 
-	setTimeout( 'JS_IM_B_Execute( "hangul" )', 2000 );
+	setTimeout( 'JS_IM_B_Execute( "vje" )', 2000 );
 
 }
 else{
