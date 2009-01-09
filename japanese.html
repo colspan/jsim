@@ -8,28 +8,57 @@
 <link rel="stylesheet" href="style/style.css">
 <link rel="stylesheet" href="style/standalone.css">
 <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+<style>
+body{
+font-size:10pt;
+font-family:Verdana;
+background:white;
+}
+</style>
 </head>
 <body>
 
-<h1>Japanese IME</h1>
+<h1><img src="style/logo_jp.png" alt="Japanese IME"></h1>
 
+<div id="version">
 Javascript Japanese IME / Javascriptによる日本語IME実装<br />
-Version 0.10 beta<br />
-<br />
+Version 0.20 beta<br />
+</div>
 
-by <a href="http://colspan.net/">Colspan</a> / License: <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a><br />
-powered by <a href="http://la.ma.la/">roma.js</a>, <a href="http://202.248.69.143/~goma/">utf.js</a>,<a href="http://d.hatena.ne.jp/project_the_tower2/">caret.js</a>,<br />
 
-<!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
-<span style="margin:15px 15px 15px 15px"><a href="http://developer.yahoo.co.jp/about">Webサービス by Yahoo! JAPAN</a></span>
-<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
-<br />
-<br />
+<style type="text/css">
+@import url(http://www.google.com/cse/api/branding.css);
+</style>
+<div class="cse-branding-right" style="background-color:#FFFFFF;color:#000000">
+  <div class="cse-branding-form">
+	<form action="http://www.google.co.jp/cse" id="cse-search-box" target="_blank">
+	  <div>
+		<input type="hidden" name="cx" value="partner-pub-3971375039517858:j42atw-ea9n" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" size="38" id="vje_adsense" class="searchbox"/>
+		<input type="submit" name="sa" value="&#x691c;&#x7d22;" />
+	  </div>
+	</form>
+  </div>
+  <div class="cse-branding-logo">
+	<img src="http://www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google" />
+  </div>
+  <div class="cse-branding-text">
+	&#12459;&#12473;&#12479;&#12512;&#26908;&#32034;
+  </div>
+</div>
+
+<form name="search" onsubmit="JSIM_Search();return false;">
+<input type="text" id="vje_for_search" size="38" class="searchbox">
+<input type="submit" name="search" value="検索">
+<select name="engine" id="engineList">
+<option value="http://search.yahoo.co.jp/search?p=">Yahoo! Japan</option>
+<option value="http://search.goo.ne.jp/web.jsp?from=query&MT=">goo</option>
+</select>
+</form>
+
 <form name="japanese">
-
-<textarea id="japaneseime" style="width:500px;height:300px;"></textarea>
-<br />
-<input type="text" id="phase" disabled="true"><br />
+<textarea id="japaneseime"></textarea>
 </form>
 
 <script type="text/javascript" src="scripts/prototype.js"></script>
@@ -40,9 +69,42 @@ powered by <a href="http://la.ma.la/">roma.js</a>, <a href="http://202.248.69.14
 <script type="text/javascript" src="scripts/JS_IM_vje.js"></script>
 
 <script type="text/javascript">
-var romaObj = new JS_IM( $( 'japaneseime' ), JS_IM_vje );
+vjeObj = new JS_IM( $( 'japaneseime' ), JS_IM_vje );
+vje_for_search_Obj = new JS_IM( $( 'vje_for_search' ), JS_IM_vje );
+vje_adsense_Obj = new JS_IM( $( 'vje_adsense' ), JS_IM_vje );
+function JSIM_Search(){ // requires vje_for_search_Obj
+  var queryWord = vje_for_search_Obj.imeBox.value;
+  var baseUrl = $( 'engineList' ).value;
+  var url = baseUrl + encodeURIComponent( queryWord );
+  window.open( url, '_blank' );
+}
+
 </script>
 
+<div id="explanation">
+<strong>
+On / Off : Shift + Space<br />
+変換開始 : Space<br />
+候補選択 : Space ↑ ↓<br />
+文節移動 : ← →, 確定 : Enter<br />
+強制かな : F6, 強制カナ : F7
+</strong>
+</div>
+
+<div id="credit">
+<a href="javascript:(function(){var s=document.createElement('script');s.charset='utf-8';s.src='http://colspan.net/japaneseime/bookmarklet/loader_japanese.js';document.body.appendChild(s);})();">Japanese IME Bookmarklet(Embed)</a><br />
+<a href="http://colspan.net/hangulime/">Hangul IME</a><br /><br />
+
+by <a href="http://colspan.net/">Colspan</a> / License: <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a><br />
+powered by <a href="http://la.ma.la/">roma.js</a>, <a href="http://202.248.69.143/~goma/">utf.js</a>,<a href="http://d.hatena.ne.jp/project_the_tower2/">caret.js</a>,<br />
+
+<!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+<span style="margin:15px 15px 15px 15px"><a href="http://developer.yahoo.co.jp/about">Webサービス by Yahoo! JAPAN</a></span>
+<!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
+
+</div>
+
+<br clear="all" />
 
 <h2>操作方法</h2>
 <p>テキストボックス上でローマ字入力をすると日本語を入力できます。変換を始めるにはSpaceキーを押してください。</p>
@@ -50,16 +112,15 @@ var romaObj = new JS_IM( $( 'japaneseime' ), JS_IM_vje );
 文節の移動は候補リスト表示中に左右の矢印キーで行い、候補の選択は上下キーおよびSpaceキーで行います。<br />
 変換中のすべての文節を確定するには次の文字列を入力し始めるか、Enterキーを押して下さい。</p>
 <p>Shift + SpaceでIMEを有効/無効にできます。</p>
+<p></p>
 <p>※ Firefoxで開発・動作確認中です。ほかの環境では不安定であったり、動作しない場合があります。</p>
 
 <h2>未実装の機能</h2>
 <ul>
-<li>強制かな・カナ変換</li>
 <li>学習・ユーザ辞書</li>
 <li>文節の切り直し</li>
-<li>IE,Opera,Safariでの動作</li>
 <li>データ取得遅延対策</li>
-<li>バッファ文字列・変換候補の表示位置を見やすく</li>
+<li>ブックマークレット</li>
 </ul>
 
 </body>
