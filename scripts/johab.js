@@ -32,7 +32,7 @@ str  strPlusJasoKeyString(str, jasoKeyString)
 str  strDeleteOneJaso(str)
 str  toHangulKeyAll(str)
 
-クラス 
+クラス
 コンストラクタ
 ClassJohabFromChar(char)
 ClassJohabFromKey(first_key, second_key, third_key)
@@ -54,7 +54,7 @@ void deleteOneJaso()
 
 クラス
 コンストラクタ
-ClassJohabFromJasoChar(jasoChar) 
+ClassJohabFromJasoChar(jasoChar)
 メソッド
 char toChar()
 keys getJasoKey()
@@ -371,7 +371,7 @@ function method_johabDeleteOneJaso() {
     return this.toChar();
   } else {
     return jasoFromKeyToChar(this.getFirstKey());
-  } 
+  }
 }
 
 function ClassJohabFromJasoChar(mystr) {
