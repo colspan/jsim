@@ -59,10 +59,10 @@ var ksHangulString22 = "팁팃팅파팍팎판팔팖팜팝팟팠팡팥패팩팬�
 var ksHangulString23 = "피픽핀필핌핍핏핑하학한할핥함합핫항해핵핸핼햄햅햇했행햐향허헉헌헐헒험헙헛헝헤헥헨헬헴헵헷헹혀혁현혈혐협혓혔형혜혠혤혭호혹혼홀홅홈홉홋홍홑화확환활홧황홰홱홴횃횅회획횐횔횝횟횡효횬횰횹횻후훅훈훌훑훔훗훙훠";
 
 var ksHangulString24 = "훤훨훰훵훼훽휀휄휑휘휙휜휠휨휩휫휭휴휵휸휼흄흇흉흐흑흔흖흗흘흙흠흡흣흥흩희흰흴흼흽힁히힉힌힐힘힙힛힝";
- 
+
 
 function isKsWansungChar(mystr) {
-  if (ksHangulString1.indexOf(mystr)>=0 || 
+  if (ksHangulString1.indexOf(mystr)>=0 ||
       ksHangulString2.indexOf(mystr)>=0 ||
       ksHangulString3.indexOf(mystr)>=0 ||
       ksHangulString4.indexOf(mystr)>=0 ||
@@ -96,7 +96,7 @@ function splitIntoKsWansung(mychar) {
   if(!isWansungChar(mychar)) {
     return mystr;
   }
-  var myHangulClass = new ClassJohabFromChar(mychar);  
+  var myHangulClass = new ClassJohabFromChar(mychar);
   var myfirstcode = myHangulClass.getFirstCode();
   var mysecondcode = myHangulClass.getSecondCode();
   var mykschar = johabFromThreeCodeToChar(myfirstcode, mysecondcode, 0);
@@ -123,5 +123,5 @@ function toKsWansungString(mystr) {
       return_str += mystr.charAt(j);
     }
   }
-  return return_str;      
+  return return_str;
 }

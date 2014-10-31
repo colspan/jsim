@@ -4536,9 +4536,9 @@ var Caret = {
 		var copyProps = [
 			'width','height',
 			'margin-top','margin-bottom','margin-left','margin-right',
-			'padding-left', 'padding-right', 'padding-top', 'padding-bottom', 
-			'border-left-style', 'border-right-style','border-top-style','border-bottom-style', 
-			'border-left-width', 'border-right-width','border-top-width','border-bottom-width', 
+			'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
+			'border-left-style', 'border-right-style','border-top-style','border-bottom-style',
+			'border-left-width', 'border-right-width','border-top-width','border-bottom-width',
 			'font-family','font-size','line-height', 'letter-spacing', 'word-spacing'
 		];
 		var setElmStyle = function (element){
@@ -4546,7 +4546,7 @@ var Caret = {
 				elmClone.style[copyProps[i].camelize()] = element.getStyle(copyProps[i]);
 			}
 
-			elmClone.style.visibility="hidden"; 
+			elmClone.style.visibility="hidden";
 			elmClone.style.position = "absolute";
 			elmClone.style.textAlign = "left";
 			//elmClone.scrollLeft = element.scrollLeft;
@@ -5087,7 +5087,7 @@ var JS_IM_toUpperCase = {
     return outputStr;
   }
 }
-/* 
+/*
 
 http://la.ma.la/js/roma.js
  JavaScriptによるローマ字仮名変換ライブラリ ver 2.0
@@ -5152,7 +5152,7 @@ function roma2reg(text){
 			slen == 2 && hira.charAt(0) == roma[h].tt && pos--;
 			var last_m = nstr[nstr.length-1] ? nstr[nstr.length-1][0] : "";
 			nstr.push(
-				(hira == kata) ? [temp,hira] : 
+				(hira == kata) ? [temp,hira] :
 				// tta → [tt,っ],[a,た]
 				(last_m && roma[h][last_m] == roma[h].tt
 				 && last_m.length == 2
@@ -5183,7 +5183,7 @@ function roma2reg(text){
 					 chars[1].charAt(1) , chars[2].charAt(1),
 					"])"].join("") :
 
-				(to_esc.hasOwnProperty(chars[0])) ? 
+				(to_esc.hasOwnProperty(chars[0])) ?
 					"(?:\\" + chars.join("|") + ")" : "(?:" + chars.join("|") + ")"
 			);
 		}

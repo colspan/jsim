@@ -4536,9 +4536,9 @@ var Caret = {
 		var copyProps = [
 			'width','height',
 			'margin-top','margin-bottom','margin-left','margin-right',
-			'padding-left', 'padding-right', 'padding-top', 'padding-bottom', 
-			'border-left-style', 'border-right-style','border-top-style','border-bottom-style', 
-			'border-left-width', 'border-right-width','border-top-width','border-bottom-width', 
+			'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
+			'border-left-style', 'border-right-style','border-top-style','border-bottom-style',
+			'border-left-width', 'border-right-width','border-top-width','border-bottom-width',
 			'font-family','font-size','line-height', 'letter-spacing', 'word-spacing'
 		];
 		var setElmStyle = function (element){
@@ -4546,7 +4546,7 @@ var Caret = {
 				elmClone.style[copyProps[i].camelize()] = element.getStyle(copyProps[i]);
 			}
 
-			elmClone.style.visibility="hidden"; 
+			elmClone.style.visibility="hidden";
 			elmClone.style.position = "absolute";
 			elmClone.style.textAlign = "left";
 			//elmClone.scrollLeft = element.scrollLeft;
@@ -5121,7 +5121,7 @@ str  strPlusJasoKeyString(str, jasoKeyString)
 str  strDeleteOneJaso(str)
 str  toHangulKeyAll(str)
 
-クラス 
+クラス
 コンストラクタ
 ClassJohabFromChar(char)
 ClassJohabFromKey(first_key, second_key, third_key)
@@ -5143,7 +5143,7 @@ void deleteOneJaso()
 
 クラス
 コンストラクタ
-ClassJohabFromJasoChar(jasoChar) 
+ClassJohabFromJasoChar(jasoChar)
 メソッド
 char toChar()
 keys getJasoKey()
@@ -5460,7 +5460,7 @@ function method_johabDeleteOneJaso() {
     return this.toChar();
   } else {
     return jasoFromKeyToChar(this.getFirstKey());
-  } 
+  }
 }
 
 function ClassJohabFromJasoChar(mystr) {

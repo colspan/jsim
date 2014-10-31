@@ -2,7 +2,7 @@
 # cgi-lib@pobox.com
 # $Id: cgi-lib.pl,v 2.18 1999/02/23 08:16:43 brenner Exp $
 #
-# Copyright (c) 1993-1999 Steven E. Brenner  
+# Copyright (c) 1993-1999 Steven E. Brenner
 # Unpublished work.
 # Permission granted to use and modify this library so long as the
 # copyright above is maintained, modifications are documented, and
@@ -33,7 +33,7 @@ $cgi_lib'headerout =    0;    # indicates whether the header has been printed
 # Reads in GET or POST data, converts it to unescaped text, and puts
 # key/value pairs in %in, using "\0" to separate multiple selections
 
-# Returns >0 if there was input, 0 if there was no input 
+# Returns >0 if there was input, 0 if there was no input
 # undef indicates some failure.
 
 # Now that cgi scripts can be put in the normal file space, it is useful
@@ -45,7 +45,7 @@ $cgi_lib'headerout =    0;    # indicates whether the header has been printed
 # If a variable-glob (e.g., *cgi_input) is the first parameter to ReadParse,
 # information is stored there, rather than in $in, @in, and %in.
 # Second, third, and fourth parameters fill associative arrays analagous to
-# %in with data relevant to file uploads. 
+# %in with data relevant to file uploads.
 
 # If no method is given, the script will process both command-line arguments
 # of the form: name=value and any text that is in $ENV{'QUERY_STRING'}
@@ -65,7 +65,7 @@ sub ReadParse {
   local ($len, $type, $meth, $errflag, $cmdflag, $got, $name);
 
   binmode(STDIN);   # we need these for DOS-based systems
-  binmode(STDOUT);  # and they shouldn't hurt anything else 
+  binmode(STDOUT);  # and they shouldn't hurt anything else
   binmode(STDERR);
 
   # Get several useful env variables
@@ -77,7 +77,7 @@ sub ReadParse {
 	  &CgiDie("cgi-lib.pl: Request to receive too much data: $len bytes\n");
   }
 
-  if (!defined $meth || $meth eq '' || $meth eq 'GET' || 
+  if (!defined $meth || $meth eq '' || $meth eq 'GET' ||
 	  $meth eq 'HEAD' ||
 	  $type eq 'application/x-www-form-urlencoded') {
 	local ($key, $val, $i);
@@ -95,14 +95,14 @@ sub ReadParse {
 	  &CgiDie("cgi-lib.pl: Unknown request method: $meth\n");
 	}
 
-	@in = split(/[&;]/,$in); 
+	@in = split(/[&;]/,$in);
 	push(@in, @ARGV) if $cmdflag; # add command-line parameters
 
 	foreach $i (0 .. $#in) {
 	  # Convert plus to space
 	  $in[$i] =~ s/\+/ /g;
 
-	  # Split into key and value.  
+	  # Split into key and value.
 	  ($key, $val) = split(/=/,$in[$i],2); # splits on the first =.
 
 	  # Convert %XX from hex numbers to alphanumeric
@@ -120,16 +120,16 @@ $errflag = !(eval <<'END_MULTIPART');
 
 	local ($buf, $boundary, $head, @heads, $cd, $ct, $fname, $ctype, $blen);
 	local ($bpos, $lpos, $left, $amt, $fn, $ser);
-	local ($bufsize, $maxbound, $writefiles) = 
+	local ($bufsize, $maxbound, $writefiles) =
 	  ($cgi_lib'bufsize, $cgi_lib'maxbound, $cgi_lib'writefiles);
 
 
 	# The following lines exist solely to eliminate spurious warning messages
-	$buf = ''; 
+	$buf = '';
 
 	($boundary) = $type =~ /boundary="([^"]+)"/; #";   # find boundary
 	($boundary) = $type =~ /boundary=(\S+)/ unless $boundary;
-	&CgiDie ("Boundary not provided: probably a bug in your server") 
+	&CgiDie ("Boundary not provided: probably a bug in your server")
 	  unless $boundary;
 	$boundary =  "--" . $boundary;
 	$blen = length ($boundary);
@@ -143,7 +143,7 @@ $errflag = !(eval <<'END_MULTIPART');
 	  stat ($writefiles);
 	  $writefiles = "/tmp" unless  -d _ && -w _;
 	  # ($me) = $0 =~ m#([^/]*)$#;
-	  $writefiles .= "/$cgi_lib'filepre"; 
+	  $writefiles .= "/$cgi_lib'filepre";
 	}
 
 	# read in the data and split into parts:
@@ -168,22 +168,22 @@ $errflag = !(eval <<'END_MULTIPART');
 	while (1) {
 	  die $@ if $errflag;
 
-	  $amt = ($left > $bufsize+$maxbound-length($buf) 
+	  $amt = ($left > $bufsize+$maxbound-length($buf)
 		  ?  $bufsize+$maxbound-length($buf): $left);
 	  $errflag = (($got = read(STDIN, $buf, $amt, length($buf))) != $amt);
 	  die "Short Read: wanted $amt, got $got\n" if $errflag;
 	  $left -= $amt;
 
-	  $in{$name} .= "\0" if defined $in{$name}; 
+	  $in{$name} .= "\0" if defined $in{$name};
 	  $in{$name} .= $fn if $fn;
 
 	  $name=~/([-\w]+)/;  # This allows $insfn{$name} to be untainted
 	  if (defined $1) {
-		$insfn{$1} .= "\0" if defined $insfn{$1}; 
+		$insfn{$1} .= "\0" if defined $insfn{$1};
 		$insfn{$1} .= $fn if $fn;
 	  }
 
-	 BODY: 
+	 BODY:
 	  while (($bpos = index($buf, $boundary)) == -1) {
 		if ($left == 0 && $buf eq '') {
 	  foreach $value (values %insfn) {
@@ -210,7 +210,7 @@ $errflag = !(eval <<'END_MULTIPART');
 	  close (FILE);
 	  last PART if substr($buf, $bpos + $blen, 2) eq "--";
 	  substr($buf, 0, $bpos+$blen+2) = '';
-	  $amt = ($left > $bufsize+$maxbound-length($buf) 
+	  $amt = ($left > $bufsize+$maxbound-length($buf)
 		  ? $bufsize+$maxbound-length($buf) : $left);
 	  $errflag = (($got = read(STDIN, $buf, $amt, length($buf))) != $amt);
 	  die "Short Read: wanted $amt, got $got\n" if $errflag;
@@ -219,7 +219,7 @@ $errflag = !(eval <<'END_MULTIPART');
 
 	  undef $head;  undef $fn;
 	 HEAD:
-	  while (($lpos = index($buf, "\r\n\r\n")) == -1) { 
+	  while (($lpos = index($buf, "\r\n\r\n")) == -1) {
 		if ($left == 0  && $buf eq '') {
 	  foreach $value (values %insfn) {
 			unlink(split("\0",$value));
@@ -241,12 +241,12 @@ $errflag = !(eval <<'END_MULTIPART');
 	  ($cd) = grep (/^\s*Content-Disposition:/i, @heads);
 	  ($ct) = grep (/^\s*Content-Type:/i, @heads);
 
-	  ($name) = $cd =~ /\bname="([^"]+)"/i; #"; 
-	  ($name) = $cd =~ /\bname=([^\s:;]+)/i unless defined $name;  
+	  ($name) = $cd =~ /\bname="([^"]+)"/i; #";
+	  ($name) = $cd =~ /\bname=([^\s:;]+)/i unless defined $name;
 
 	  ($fname) = $cd =~ /\bfilename="([^"]*)"/i; #"; # filename can be null-str
 	  ($fname) = $cd =~ /\bfilename=([^\s:;]+)/i unless defined $fname;
-	  $incfn{$name} .= (defined $in{$name} ? "\0" : "") . 
+	  $incfn{$name} .= (defined $in{$name} ? "\0" : "") .
 		(defined $fname ? $fname : "");
 
 	  ($ctype) = $ct =~ /^\s*Content-type:\s*"([^"]+)"/i;  #";
@@ -287,7 +287,7 @@ END_MULTIPART
 
   $^W = $perlwarn;
 
-  return ($errflag ? undef :  scalar(@in)); 
+  return ($errflag ? undef :  scalar(@in));
 }
 
 
@@ -359,7 +359,7 @@ sub MethPost {
 sub MyBaseUrl {
   local ($ret, $perlwarn);
   $perlwarn = $^W; $^W = 0;
-  $ret = 'http://' . $ENV{'SERVER_NAME'} .  
+  $ret = 'http://' . $ENV{'SERVER_NAME'} .
 		 ($ENV{'SERVER_PORT'} != 80 ? ":$ENV{'SERVER_PORT'}" : '') .
 		 $ENV{'SCRIPT_NAME'};
   $^W = $perlwarn;
@@ -372,7 +372,7 @@ sub MyBaseUrl {
 sub MyFullUrl {
   local ($ret, $perlwarn);
   $perlwarn = $^W; $^W = 0;
-  $ret = 'http://' . $ENV{'SERVER_NAME'} .  
+  $ret = 'http://' . $ENV{'SERVER_NAME'} .
 		 ($ENV{'SERVER_PORT'} != 80 ? ":$ENV{'SERVER_PORT'}" : '') .
 		 $ENV{'SCRIPT_NAME'} . $ENV{'PATH_INFO'} .
 		 (length ($ENV{'QUERY_STRING'}) ? "?$ENV{'QUERY_STRING'}" : '');
@@ -394,7 +394,7 @@ sub MyURL  {
 # markup, etcetera.
 # Parameters:
 #  If no parameters, gives a generic error message
-#  Otherwise, the first parameter will be the title and the rest will 
+#  Otherwise, the first parameter will be the title and the rest will
 #  be given as different paragraphs of the body
 
 sub CgiError {
@@ -407,7 +407,7 @@ sub CgiError {
   };
 
   if (!$cgi_lib'headerout) { #')
-	print &PrintHeader;	
+	print &PrintHeader;
 	print "<html>\n<head>\n<title>$msg[0]</title>\n</head>\n<body>\n";
   }
   print "<h1>$msg[0]</h1>\n";

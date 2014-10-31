@@ -633,7 +633,7 @@ function kup() {
 // lastTextLength + 一文字 = mytext.length ならば，キー入力があったとみなして，
 // romaji->kana変換をする．
 // 逆にいえば，lastTextLength != mytext.length - 1 なら，romaji->kana変換はしない
-  if(lastTextLength != (mytext.length - 1)) return; 
+  if(lastTextLength != (mytext.length - 1)) return;
   if(mytext.length <= 0) return; //BackSpaceを押した時の対策
   mykey = mytext.substring(mytext.length - 1, mytext.length);
   mytext = mytext.substring(0, mytext.length - 1);
